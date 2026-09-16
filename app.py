@@ -186,10 +186,9 @@ Do not shame the student.
 
                     st.markdown(feedback.text)
 
-                except Exception:
-                    st.error(
-                        "Sorry, I couldn't check the answer right now."
-                    )
+                except Exception as e:
+    st.error("Sorry, I couldn't check the answer right now.")
+    st.exception(e)
 
         else:
             st.warning("Please enter your answer first.")
