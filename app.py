@@ -122,23 +122,23 @@ if "lesson" in st.session_state:
 
     st.markdown(st.session_state["lesson"])
 
-    # -----------------------------
-    # STUDENT ANSWER
-    # -----------------------------
-    st.divider()
+# -----------------------------
+# STUDENT ANSWER
+# -----------------------------
+st.divider()
 
-    st.header("✍️ Check My Answer")
+st.header("✍️ Check My Answer")
 
-    student_answer = st.text_area(
-        "Enter your answer to the practice question:",
-        placeholder="Type your answer here..."
-    )
+student_answer = st.text_area(
+    "Enter your answer to the practice question:",
+    placeholder="Type your answer here..."
+)
 
-    if st.button("✅ Check My Answer"):
+if st.button("✅ Check My Answer"):
 
-        if student_answer.strip():
+    if student_answer.strip():
 
-            feedback_prompt = f"""
+        feedback_prompt = f"""
 You are LearnAssist Nigeria, an AI Mathematics tutor.
 
 Student class: {class_level}
@@ -174,24 +174,23 @@ Be encouraging and educational.
 Do not shame the student.
 """
 
-            with st.spinner("🔍 Checking your answer..."):
+        with st.spinner("🔍 Checking your answer..."):
 
-                try:
-                    feedback = client.models.generate_content(
-                        model="gemini-3.8-flash",
-                        contents=feedback_prompt
-                    )
+            try:
+                feedback = client.models.generate_content(
+                    model="gemini-3.8-flash",
+                    contents=feedback_prompt
+                )
 
-                    st.success("Feedback ready!")
+                st.success("Feedback ready!")
+                st.markdown(feedback.text)
 
-                    st.markdown(feedback.text)
+            except Exception as e:
+                st.error("Sorry, I couldn't check the answer right now.")
+                st.exception(e)
 
-                except Exception as e:
-    st.error("Sorry, I couldn't check the answer right now.")
-    st.exception(e)
-
-        else:
-            st.warning("Please enter your answer first.")
+    else:
+        st.warning("Please enter your answer first.")
 
 
 # -----------------------------
